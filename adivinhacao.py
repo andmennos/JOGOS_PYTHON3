@@ -1,23 +1,72 @@
 import random
 
 def jogar():
+    imprime_mensagem_inicial()
+    numero_secreto = gera_numero_secreto()
+    total_de_tentativas = define_dificuldade()
+    print(f"\nVocê possui {total_de_tentativas} tentativas.")
+
+    acertou = False
+    perdeu = False
+    tentativas = 0
+    total_pontuacao = 1000
+    ponto_final = 2
+
+    while not acertou and not perdeu:
+
+        chute = solicita_chute()
+
+        if chute == numero_secreto:
+            pontuacao = abs(calcula_pontuacao(tentativas, total_pontuacao, total_de_tentativas)) * ponto_final
+            mensagem_vencedor(pontuacao)
+            acertou = True
+
+        elif chute > numero_secreto:
+            print("\nVocê errou! O número que você chutou é maior que o número secreto.")
+            tentativas += 1
+            tentativas_restantes = conta_tentativas(total_de_tentativas, tentativas)
+
+            if tentativas_restantes == 0:
+                pontuacao = calcula_pontuacao(tentativas, total_pontuacao, total_de_tentativas) / ponto_final
+                mensagem_perdedor(numero_secreto, pontuacao)
+                perdeu = True
+            else:
+                if tentativas_restantes == 1:
+                    print(f"Cuidado! Essa é sua última tentativa")
+                else:
+                    print(f"Você possui {tentativas_restantes} tentativas")
+
+        elif chute < numero_secreto:
+            print("\nVocê errou! O número que você chutou é menor que o número secreto.")
+            tentativas += 1
+            tentativas_restantes = conta_tentativas(total_de_tentativas, tentativas)
+
+            if tentativas_restantes == 0:
+                pontuacao = calcula_pontuacao(tentativas, total_pontuacao, total_de_tentativas) / ponto_final
+                mensagem_perdedor(numero_secreto, pontuacao)
+                perdeu = True
+            else:
+                print("\nTente de novamente\n")
+                if tentativas_restantes == 1:
+                    print(f"Cuidado! Essa é sua última tentativa")
+                else:
+                    print(f"Você possui {tentativas_restantes} tentativas")
+
+def imprime_mensagem_inicial():
     print("**********************************")
-    print(" Bem vindo ao Jogo da Adivinhação")
+    print("*Bem vindo ao Jogo da Adivinhação*")
     print("**********************************")
 
-    print("Nível de dificuldade:")
-    print("Nível (1) Fácil - (2) Médio - (3) Difícil")
-
+def gera_numero_secreto():
     numero_secreto = random.randrange(1, 101)
-    pontuacao = 1000
-    perdeu = 800
-    tentativas = 1
-    total_de_tentativas = 0
-    i = 0
-    cont = 0
+    return numero_secreto
+
+def define_dificuldade(i=0):
+    print("Nível de dificuldade:")
+    print("Nível Fácil (1) - Médio (2) - Difícil (3)")
 
     while i < 1:
-
+        total_de_tentativas = 0
         nivel = int(input("Digite o número respectivo do nível escolhido: "))
 
         if nivel == 1:
@@ -31,45 +80,58 @@ def jogar():
             i += 1
         else:
             print("\nVocê deve definir um nível entre 1 e 3!\n")
+    return total_de_tentativas
 
-    for tentativas in range(1, total_de_tentativas + 1):
-        print(f"Tentativa {tentativas} de {total_de_tentativas}.")
+def conta_tentativas(total_de_tentativas, tentativas):
+    tentativas_restantes = total_de_tentativas - tentativas
+    return tentativas_restantes
+
+def solicita_chute():
+    chute = int(input("Chute um número entre 1 e 100: "))
+    while chute < 1 or chute > 100:
         chute = int(input("Chute um número entre 1 e 100: "))
-        print(f"Você digitou: {chute}.")
-
         if chute < 1 or chute > 100:
-            print("Você deve digitar um número entre 1 e 100! Perdeu uma tentativa")
-            continue
+            print("Você deve digitar um número entre 1 e 100!")
+    print(f"Você digitou: {chute}.")
+    return chute
 
-        acertou = chute == numero_secreto
-        maior = chute > numero_secreto
-        menor = chute < numero_secreto
+def calcula_pontuacao(tentativas, total_pontuacao, total_de_tentativas):
+    pontos_perdidos = tentativas + total_de_tentativas
+    pontuacao = abs(total_pontuacao / pontos_perdidos)
+    return pontuacao
 
-        if acertou:
-            print(f"INCRÍVEL!! Você acertou e fez {pontuacao} pontos!")
-            break
+def mensagem_vencedor(pontuacao):
+    print(f"\nINCRÍVEL!! Você acertou e fez {pontuacao:.0f} pontos!")
+    print("\nParabéns, você ganhou!!\n")
+    print("       ___________      ")
+    print("      '._==_==_=_.'     ")
+    print("      .-\\:      /-.    ")
+    print("     | (|:.     |) |    ")
+    print("      '-|:.     |-'     ")
+    print("        \\::.    /      ")
+    print("         '::. .'        ")
+    print("           ) (          ")
+    print("         _.' '._        ")
+    print("        '-------'     \n")
 
-        elif maior:
-            print("Você errou! O número que você chutou é maior que o número secreto.")
-            pontos_perdidos = abs(chute - numero_secreto)
-            pontuacao = pontuacao - pontos_perdidos
-            if tentativas == total_de_tentativas:
-                pontuacao = pontuacao - perdeu
-                print(f"Que pena, você perdeu! O número secreto era {numero_secreto}. Você fez {pontuacao} pontos.")
-            else:
-                print("\nTente de novo\n")
-
-        elif menor:
-            print("Você errou! O número que você chutou é menor que o número secreto.")
-            pontos_perdidos = abs(chute - numero_secreto)
-            pontuacao = pontuacao - pontos_perdidos
-            if tentativas == total_de_tentativas:
-                pontuacao = pontuacao - perdeu
-                print(f"Que pena, você perdeu! O número secreto era {numero_secreto}. Você fez {pontuacao} pontos.")
-            else:
-                print("\nTente de novo\n")
-
-    print("\nFim do jogo")
+def mensagem_perdedor(numero_secreto, pontuacao):
+    print(f"\nQue pena, você perdeu! O número secreto era {numero_secreto}. Você fez {pontuacao:.0f} pontos!\n")
+    print("    _______________         ")
+    print("   /               \       ")
+    print("  /                 \      ")
+    print("//                   \/\  ")
+    print("\|   XXXX     XXXX   | /   ")
+    print(" |   XXXX     XXXX   |/     ")
+    print(" |   XXX       XXX   |      ")
+    print(" |                   |      ")
+    print(" \__      XXX      __/     ")
+    print("   |\     XXX     /|       ")
+    print("   | |           | |        ")
+    print("   | I I I I I I I |        ")
+    print("   |  I I I I I I  |        ")
+    print("   \_             _/       ")
+    print("     \_         _/         ")
+    print("       \_______/         \n")
 
 if __name__ == "__main__":
     jogar()
