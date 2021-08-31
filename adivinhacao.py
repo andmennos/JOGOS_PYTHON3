@@ -88,11 +88,14 @@ def conta_tentativas(total_de_tentativas, tentativas):
 
 def solicita_chute():
     chute = int(input("Chute um número entre 1 e 100: "))
+
     while chute < 1 or chute > 100:
+        print(f"\nVocê digitou: {chute}.")
+        print("Você deve digitar um número entre 1 e 100!\n")
         chute = int(input("Chute um número entre 1 e 100: "))
-        if chute < 1 or chute > 100:
-            print("Você deve digitar um número entre 1 e 100!")
+
     print(f"Você digitou: {chute}.")
+
     return chute
 
 def calcula_pontuacao(tentativas, total_pontuacao, total_de_tentativas):
@@ -114,6 +117,8 @@ def mensagem_vencedor(pontuacao):
     print("         _.' '._        ")
     print("        '-------'     \n")
 
+    novo_jogo()
+
 def mensagem_perdedor(numero_secreto, pontuacao):
     print(f"\nQue pena, você perdeu! O número secreto era {numero_secreto}. Você fez {pontuacao:.0f} pontos!\n")
     print("    _______________         ")
@@ -132,6 +137,20 @@ def mensagem_perdedor(numero_secreto, pontuacao):
     print("   \_             _/       ")
     print("     \_         _/         ")
     print("       \_______/         \n")
+
+    novo_jogo()
+
+def novo_jogo():
+    novo_jogo = int(input("Quer jogar novamente? Sim (1) - Não (2)"))
+    if novo_jogo == 1:
+        print("\n")
+        jogar()
+
+    elif novo_jogo == 2:
+        print("\nObrigado!\n")
+
+    else:
+        print("\nVocê deve escolher entre 1 e 2\n")
 
 if __name__ == "__main__":
     jogar()

@@ -6,7 +6,7 @@ def jogar():
     letras_acertadas = imprime_espaco_palavra(palavra_secreta)
     letras_faltando = conta_letras(letras_acertadas)
 
-    print(f"A palavra secreta possui {letras_faltando} letras.")
+    print(f"A fruta secreta possui {letras_faltando} letras.")
     print(letras_acertadas)
 
     enforcou = False
@@ -60,12 +60,12 @@ def imprime_espaco_palavra(palavra_secreta):
     return letras_acertadas
 
 def solicita_chute():
-    chute = input("\nChute uma letra que possa fazer parte da palavra secreta: ")
+    chute = input("\nChute uma letra que possa fazer parte da fruta secreta: ")
     chute = chute.strip().lower()
     return chute
 
 def adiciona_letra_acertada(palavra_secreta, chute, letras_acertadas):
-    print(f"\nVocê acertou o chute. A letra \"{chute}\" existe na palavra!")
+    print(f"\nVocê acertou o chute. A letra \"{chute}\" existe na palavra da fruta secreta!")
     index = 0
     for letra in palavra_secreta:
         if chute == letra:
@@ -74,7 +74,7 @@ def adiciona_letra_acertada(palavra_secreta, chute, letras_acertadas):
 
 def desenha_forca(erros, letras_acertadas):
     letras_faltando = conta_letras(letras_acertadas)
-    print(f"\nEpa, você errou o chute. Ainda faltam {letras_faltando} letras para completar a palavra.")
+    print(f"\nEpa, você errou o chute. Ainda faltam {letras_faltando} letras para completar a palavra da fruta secreta.")
     print("  _______     ")
     print(" |/      |    ")
 
@@ -136,6 +136,7 @@ def verifica_se_ganhou(letras_acertadas):
 
 def imprime_mensagem_vencedor():
     print("Parabéns, você ganhou!!")
+    print(f"A fruta secreta era {palavra_secreta}.\n")
     print("       ___________      ")
     print("      '._==_==_=_.'     ")
     print("      .-\\:      /-.    ")
@@ -147,9 +148,11 @@ def imprime_mensagem_vencedor():
     print("         _.' '._        ")
     print("        '-------'       ")
 
+    novo_jogo()
+
 def imprime_mensagem_perdedor(palavra_secreta):
     print("Puxa, que pena! você foi enforcado!!")
-    print(f"A palavra era {palavra_secreta}")
+    print(f"A fruta secreta era {palavra_secreta}.\n")
     print("    _______________         ")
     print("   /               \       ")
     print("  /                 \      ")
@@ -166,6 +169,20 @@ def imprime_mensagem_perdedor(palavra_secreta):
     print("   \_             _/       ")
     print("     \_         _/         ")
     print("       \_______/           ")
+
+    novo_jogo()
+
+def novo_jogo():
+    novo_jogo = int(input("Quer jogar novamente? Sim (1) - Não (2)"))
+    if novo_jogo == 1:
+        print("\n")
+        jogar()
+
+    elif novo_jogo == 2:
+        print("\nObrigado!\n")
+
+    else:
+        print("\nVocê deve escolher entre 1 e 2\n")
 
 if __name__ == '__main__':
     jogar()
