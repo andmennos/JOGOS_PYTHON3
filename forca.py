@@ -30,7 +30,7 @@ def jogar():
         print(letras_acertadas)
 
     if acertou:
-        imprime_mensagem_vencedor()
+        imprime_mensagem_vencedor(palavra_secreta)
     else:
         imprime_mensagem_perdedor(palavra_secreta)
 
@@ -134,7 +134,7 @@ def verifica_se_ganhou(letras_acertadas):
     acertou = "_" not in letras_acertadas
     return acertou
 
-def imprime_mensagem_vencedor():
+def imprime_mensagem_vencedor(palavra_secreta):
     print("Parabéns, você ganhou!!")
     print(f"A fruta secreta era {palavra_secreta}.\n")
     print("       ___________      ")
